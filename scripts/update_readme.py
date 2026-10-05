@@ -49,6 +49,17 @@ def notes(limit=7):
             out.append(f"- {c['commit']['author']['date'][:10]} · [{msg.split(':', 1)[1].strip()}]({c['html_url']})")
         if len(out) >= limit:
             break
+    if out:
+        return "\n".join(out)
+    # fallback: newest note folders under issues/ (e.g. "007-graceful-node-reboot")
+    try:
+        items = gh(f"https://api.github.com/repos/{NOTES}/contents/issues")
+    except Exception:
+        return "_Field notes start soon._"
+    dirs = sorted((i for i in items if i["type"] == "dir"), key=lambda i: i["name"], reverse=True)[:limit]
+    for d in dirs:
+        num, _, slug = d["name"].partition("-")
+        out.append(f"- #{num} · [{slug.replace('-', ' ').capitalize()}]({d['html_url']})")
     return "\n".join(out) or "_Field notes start soon._"
 
 
