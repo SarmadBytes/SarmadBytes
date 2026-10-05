@@ -30,7 +30,13 @@ I design, run and fix production OpenShift for environments where downtime and a
 
 ## Latest field notes
 <!-- NOTES:START -->
-_Field notes start soon._
+- #007 · [Graceful node reboot](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/007-graceful-node-reboot)
+- #006 · [Extend node root disk](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/006-extend-node-root-disk)
+- #005 · [Ingress ssl certificate](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/005-ingress-ssl-certificate)
+- #004 · [Nodejs permission denied](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/004-nodejs-permission-denied)
+- #003 · [Vsphere permissions](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/003-vsphere-permissions)
+- #002 · [Service account token 4.17](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/002-service-account-token-4.17)
+- #001 · [Pod crashloop](https://github.com/SarmadBytes/openshift-field-notes/tree/main/issues/001-pod-crashloop)
 <!-- NOTES:END -->
 
 ## Now
