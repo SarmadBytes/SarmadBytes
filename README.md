@@ -22,12 +22,15 @@ I design, run and fix production OpenShift for environments where downtime and a
 
 ## Projects
 <!-- PROJECTS:START -->
-_Updated automatically every day from repositories tagged `portfolio`._
+| Project | What it does | Stack | Updated |
+|---|---|---|---|
+| [ocp-node-connectivity-checker](https://github.com/SarmadBytes/ocp-node-connectivity-checker) | Check network reachability from every OpenShift node to a destination in one run (oc debug + curl), with logs and a summary table | bash, day2-operations, kubernetes, networking, openshift | 2026-10-05 |
+| [openshift-field-notes](https://github.com/SarmadBytes/openshift-field-notes) | Real OpenShift production problems and how they were fixed: SCC, certificates, upgrades, nodes, storage | kubernetes, openshift, red-hat, runbooks, troubleshooting | 2026-10-05 |
 <!-- PROJECTS:END -->
 
 ## Latest field notes
 <!-- NOTES:START -->
-_Updated automatically every day from the field-notes repository._
+_Field notes start soon._
 <!-- NOTES:END -->
 
 ## Now
@@ -36,4 +39,4 @@ _Updated automatically every day from the field-notes repository._
 - Studying: RHCA in OpenShift track (EX280 → EX380), NVIDIA NCA-AIIO
 <!-- NOW:END -->
 
-<sub>Last updated: <!-- DATE:START -->—<!-- DATE:END --></sub>
+<sub>Last updated: <!-- DATE:START -->2026-10-05<!-- DATE:END --></sub>
