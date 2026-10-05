@@ -77,11 +77,11 @@ flowchart LR
 ```
 
 ## Toolbox
-**Platform** OpenShift 4.x · Kubernetes · ACM · ACS · ODF/Ceph · Quay · OpenShift Virtualization · RHV
-**Delivery** Argo CD · Tekton · Helm · Kustomize · Ansible/AAP · Terraform · GitHub Actions
-**Observe & secure** Prometheus/PromQL · Grafana · Dynatrace · ELK · SCC · NetworkPolicy · Keycloak
-**Code** Python · Bash · YAML
-**AI infra** OpenShift AI · NVIDIA GPU Operator · vLLM
+- **Platform:** OpenShift 4.x · Kubernetes · ACM · ACS · ODF/Ceph · Quay · OpenShift Virtualization · RHV
+- **Delivery:** Argo CD · Tekton · Helm · Kustomize · Ansible/AAP · Terraform · GitHub Actions
+- **Observe & secure:** Prometheus/PromQL · Grafana · Dynatrace · ELK · SCC · NetworkPolicy · Keycloak
+- **Code:** Python · Bash · YAML
+- **AI infra:** OpenShift AI · NVIDIA GPU Operator · vLLM
 
 ## Now
 <!-- NOW:START -->
