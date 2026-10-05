@@ -1,0 +1,29 @@
+# Daily refresh of the profile README (projects + field notes + date).
+name: update-readme
+on:
+  schedule:
+    - cron: "17 3 * * *"       # 03:17 UTC = 08:17 Lahore (off the hour: GitHub delays :00 runs)
+  workflow_dispatch: {}
+  push:
+    paths: ["scripts/**", ".github/workflows/**"]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rebuild README
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          NOTES_REPO: ${{ vars.NOTES_REPO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/update_readme.py
+      - name: Commit if changed
+        run: |
+          git config user.name "${{ github.repository_owner }}"
+          git config user.email "${{ github.repository_owner }}@users.noreply.github.com"
+          git diff --quiet || (git commit -am "chore: daily profile refresh" && git push)
