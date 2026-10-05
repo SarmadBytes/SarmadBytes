@@ -7,7 +7,7 @@
 #           Runs daily from .github/workflows/update-readme.yml.
 # Prereqs : Python 3.10+, standard library only. Public data only.
 # -----------------------------------------------------------------------------
-import json, os, re, urllib.request
+import json, os, re, urllib.parse, urllib.request
 from datetime import datetime, timezone
 
 USER = os.environ.get("GH_USER", "")
@@ -30,11 +30,33 @@ def projects():
     rows = [r for r in repos if "portfolio" in (r.get("topics") or []) and not r["fork"] and not r["archived"]]
     if not rows:
         return "_First projects are being published._"
-    out = ["| Project | What it does | Stack | Updated |", "|---|---|---|---|"]
+    # group: "for OpenShift" ports (topic openshift-port) · labs (topic lab) · tools/notes (rest)
+    groups = {"Tools & field notes": [], "Open-source tools ported to OpenShift": [], "Labs": []}
     for r in rows:
-        stack = ", ".join(t for t in r.get("topics", []) if t != "portfolio")[:60]
-        out.append(f"| [{r['name']}]({r['html_url']}) | {r.get('description') or ''} | {stack} | {r['pushed_at'][:10]} |")
-    return "\n".join(out)
+        t = r.get("topics") or []
+        key = "Open-source tools ported to OpenShift" if "openshift-port" in t else "Labs" if "lab" in t else "Tools & field notes"
+        groups[key].append(r)
+    out = []
+    for title, items in groups.items():
+        if not items:
+            continue
+        out += [f"**{title}**", "", "| Project | What it does | Stack | ★ | Updated |", "|---|---|---|---|---|"]
+        for r in items:
+            stack = ", ".join(t for t in r.get("topics", []) if t not in ("portfolio", "openshift-port", "lab"))[:60]
+            out.append(f"| [{r['name']}]({r['html_url']}) | {r.get('description') or ''} | {stack} | {r['stargazers_count']} | {r['pushed_at'][:10]} |")
+        out.append("")
+    return "\n".join(out).rstrip()
+
+
+def contrib(limit=8):
+    """Merged pull requests in repositories owned by someone else."""
+    q = f"is:pr author:{USER} is:merged -user:{USER}"
+    res = gh("https://api.github.com/search/issues?per_page=30&sort=updated&q=" + urllib.parse.quote(q))
+    out = []
+    for it in res.get("items", [])[:limit]:
+        repo = it["repository_url"].split("/repos/")[1]
+        out.append(f"- [{repo}](https://github.com/{repo}) — [{it['title']}]({it['html_url']}) · merged {(it.get('pull_request') or {}).get('merged_at', it['closed_at'])[:10]}")
+    return "\n".join(out) or "_First upstream pull requests coming this month — OpenShift docs, llm-d, KubeArmor._"
 
 
 def notes(limit=7):
@@ -73,6 +95,7 @@ if __name__ == "__main__":
     old = open(README, encoding="utf-8").read()
     text = replace(old, "PROJECTS", projects())
     text = replace(text, "NOTES", notes())
+    text = replace(text, "CONTRIB", contrib())
     # stamp the date ONLY when real content changed (no daily filler commits)
     if text != old:
         text = replace(text, "DATE", datetime.now(timezone.utc).strftime("%Y-%m-%d"))
